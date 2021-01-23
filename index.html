@@ -47,7 +47,7 @@
   <h1>WebView</h1>
   <div class="input-box">
     <span>输入要传递的值：</span>
-    <input type="text" id="input" value="www.baidu.com">
+    <input type="text" id="input" value="https://www.baidu.com">
   </div>
   <div id="btns">
     <button type="button" class="btn1">我是列表1</button>
@@ -55,39 +55,33 @@
   </div>
 
   <script type="text/javascript">
-    window.receiveApp = function(data) {
-      if (data) {
-        if (!data.status) {
-          alert('receiveApp() Attribute: < status > not found!')
-          return
-        }
-        var newData = 0;
-        newData = data.status;
-        return newData
-      } else {
-        alert('receiveApp() params is empty!')
-      }
-    }
+    // window.receiveApp = function(data) {
+    //   if (data) {
+    //     var newData = {};
+    //     newData = data;
+    //     return newData
+    //   } else {
+    //     alert('receiveApp() params is empty!')
+    //   }
+    // }
 
     function main() {
       var btnEle = document.getElementById("btns");
       var inputEle = document.getElementById("input");
-      // 接收客户端参数
-      var recData = {}
-      var data2 = { "url": "www.baidu.com", "title": "我是列表1", "status": "0" }
+
       btnEle.addEventListener("click", callTest);
 
-      recData.screenStatus = window.receiveApp(data2);
-      // console.log(recData)
-
       function callTest(e) {
-        var url = inputEle.value || 'null';
-        var title = e.target.innerText || 'null';
+        var url = inputEle.value || null;
+        var title = e.target.innerText || null;
+        // var screen_orientation = 'landscape' // 横屏
+        var screen_orientation = 'portrait' // 竖屏
         var obj = {
           url: url,
-          title: title
+          title: title,
+          screen_orientation: screen_orientation
         }
-        console.log(recData.screenStatus)
+
         if (window.launcher) {
           // JS 调用 Android 的方法
           launcher.callAndroid(JSON.stringify(obj));
