@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>webView</title>
+
+  <style type="text/css">
+    body {
+      background: #cbcc1a;
+    }
+
+    button {
+      margin-top: 50px;
+      padding: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>WebView</h1>
+  <div>
+    <span>请输入要传递的值：</span>
+    <input type="text" id="input">
+  </div>
+  <div>
+    <button type="button" id="btn">addJavascriptInterface调用Android方法</button>
+    <button type="button" id="btn2">shouldOverrideUrlLoading调用Android方法</button>
+    <button type="button" id="btn3">prompt调用Android方法</button>
+  </div>
+
+  <script type="text/javascript">
+    var btnEle = document.getElementById("btn");
+    var inputEle = document.getElementById("input");
+    btnEle.addEventListener("click", function() {
+      var str = inputEle.value;
+      if (window.launcher) { // 判断 launcher 对象是否存在
+        // JS 调用 Android 的方法
+        launcher.callAndroid(str);
+      } else {
+        alert("launcher not found!");
+      }
+    });
+
+    var callJS = function(str) {
+      inputEle.value = str;
+    }
+
+    var btnEle2 = document.getElementById("btn2");
+    btnEle2.addEventListener("click", function() {
+      callAndroid();
+    });
+
+    function callAndroid() {
+      // 约定的 url 协议为：js://webview?arg1=111&arg2=222
+      document.location = "js://webview?arg1=" + inputEle.value + "&arg2=222";
+    }
+
+    var btnEle3 = document.getElementById("btn3");
+    btnEle3.addEventListener("click", function() {
+      // 调用 prompt()
+      var result = prompt("js://prompt?arg1=" + inputEle.value + "&arg2=222");
+      alert("prompt：" + result);
+    });
+
+  </script>
+</body>
+
+</html>

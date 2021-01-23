@@ -55,31 +55,47 @@
   </div>
 
   <script type="text/javascript">
-
-    function callTest(e) {
-      var inputEle = document.getElementById("input");
-      var url = inputEle.value || 'null';
-      var title = e.target.innerText || 'null';
-      var obj = {
-        url: url,
-        title: title
-      }
-      if (window.launcher) {
-        // JS 调用 Android 的方法
-        launcher.callAndroid(JSON.stringify(obj));
+    window.receiveApp = function(data) {
+      if (data) {
+        if (!data.status) {
+          alert('receiveApp() Attribute: < status > not found!')
+          return
+        }
+        var newData = 0;
+        newData = data.status;
+        return newData
       } else {
-        alert("launcher not found!");
+        alert('receiveApp() params is empty!')
       }
     }
 
     function main() {
-      // window.launcher = {
-      //   callAndroid: function(obj) {
-      //     console.log(JSON.stringify(obj));
-      //   }
-      // };
       var btnEle = document.getElementById("btns");
+      var inputEle = document.getElementById("input");
+      // 接收客户端参数
+      var recData = {}
+      var data2 = { "url": "www.baidu.com", "title": "我是列表1", "status": "0" }
       btnEle.addEventListener("click", callTest);
+
+      recData.screenStatus = window.receiveApp(data2);
+      // console.log(recData)
+
+      function callTest(e) {
+        var url = inputEle.value || 'null';
+        var title = e.target.innerText || 'null';
+        var obj = {
+          url: url,
+          title: title
+        }
+        console.log(recData.screenStatus)
+        if (window.launcher) {
+          // JS 调用 Android 的方法
+          launcher.callAndroid(JSON.stringify(obj));
+        } else {
+          alert("launcher not found!");
+        }
+      }
+
     }
 
     main();
