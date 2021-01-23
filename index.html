@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>webView</title>
+
+  <style type="text/css">
+    body {
+      background: #ccc;
+    }
+
+    button {
+      display: block;
+      margin: 50px auto;
+      padding: 10px 100px;
+      border-radius: 10px;
+      border: 0;
+      border: 1px solid #333;
+    }
+
+    button:active {
+      transform: scale(.96);
+    }
+
+    input {
+      padding: 10px;
+      border-radius: 10px;
+      border: 0;
+    }
+
+    h1 {
+      text-align: center;
+      margin: 50px 0;
+    }
+
+    .input-box {
+      width: 400px;
+      height: 50px;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>WebView</h1>
+  <div class="input-box">
+    <span>输入要传递的值：</span>
+    <input type="text" id="input" value="www.baidu.com">
+  </div>
+  <div id="btns">
+    <button type="button" class="btn1">我是列表1</button>
+    <button type="button" class="btn1">我是列表2</button>
+  </div>
+
+  <script type="text/javascript">
+
+    function callTest(e) {
+      var inputEle = document.getElementById("input");
+      var url = inputEle.value || 'null';
+      var title = e.target.innerText || 'null';
+      var obj = {
+        url: url,
+        title: title
+      }
+      if (window.launcher) {
+        // JS 调用 Android 的方法
+        launcher.callAndroid(JSON.stringify(obj));
+      } else {
+        alert("launcher not found!");
+      }
+    }
+
+    function main() {
+      // window.launcher = {
+      //   callAndroid: function(obj) {
+      //     console.log(JSON.stringify(obj));
+      //   }
+      // };
+      var btnEle = document.getElementById("btns");
+      btnEle.addEventListener("click", callTest);
+    }
+
+    main();
+
+  </script>
+</body>
+
+</html>
